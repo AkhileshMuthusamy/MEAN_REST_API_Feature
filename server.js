@@ -18,6 +18,7 @@ let storage = multer.diskStorage({
 	}
 });
 const upload = multer({ storage: storage });
+const multiUpload = multer({ storage: storage }).array('imgUploader', 3);
 
 app.get('/', (req, res) => {
 	res.status(200).send('Welcome to MEAN stack RESTful API!');
@@ -25,6 +26,16 @@ app.get('/', (req, res) => {
 
 app.post('/api/upload', upload.single('avatar'), (req, res) => {
 	return res.status(200).end('File uploaded successfuly!');
+});
+
+app.post('/api/multiupload', (req, res, next) => {
+	multiUpload(req, res, function(err) {
+		if (err) {
+			console.dir(err);
+			return res.end('Something went wrong!');
+		}
+		return res.end('File uploaded sucessfully!.');
+	});
 });
 
 app.listen(port, () => {
