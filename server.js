@@ -25,16 +25,16 @@ app.get('/', (req, res) => {
 });
 
 app.post('/api/upload', upload.single('avatar'), (req, res) => {
-	return res.status(200).end('File uploaded successfuly!');
+	return res.status(200).json('File uploaded successfuly!');
 });
 
-app.post('/api/multiupload', (req, res, next) => {
+app.post('/api/multiupload', (req, res) => {
 	multiUpload(req, res, function(err) {
 		if (err) {
 			console.dir(err);
 			return res.end('Something went wrong!');
 		}
-		return res.end('File uploaded sucessfully!.');
+		return res.status(200).json('File uploaded successfuly!');
 	});
 });
 
